@@ -23,16 +23,12 @@ function App() {
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        { foodTrucks.map(truck => (
-          <div key={truck.objectid}>
-            <div>{truck.applicant}</div>
-            <div>{truck.address}</div>
-            <a
-              className="App-link"
-              href={truck.schedule}
-              target="_blank"
-              rel="noopener noreferrer"
-            >SCHEDULE</a>
+      </header>
+      <div className="stores">
+        {foodTrucks.map(truck => (
+          <div key={truck.objectid} className="food-truck">
+            <div className="name">{truck.applicant}</div>
+            <div className="address">{truck.address}</div>
             <ul className="menu-items">
               {truck.fooditems.split(': ')
                 .slice(0, MAX_MENU_ITEMS)
@@ -42,8 +38,8 @@ function App() {
               }
             </ul>
           </div>
-        )) }
-      </header>
+        ))}
+      </div>
     </div>
   );
 }
