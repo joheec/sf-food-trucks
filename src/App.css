@@ -37,6 +37,31 @@
   }
 }
 
+.search > .query {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 45px;
+}
+
+.search > .error {
+  color: red;
+  height: 20px;
+  font-size: 16px;
+}
+
+.search > button {
+  width: 80%;
+  height: 30px;
+  margin-top: 1em;
+  margin-bottom: 2em;
+  border: solid 2px #053f46;
+  border-radius: 15px;
+  color: #212054;
+  background-color: #00BCD4;
+  font-weight: bold;
+  box-shadow: 0 0 1px 2px #317c86;
+}
+
 img.no-results {
   width: 100%;
 }

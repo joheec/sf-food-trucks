@@ -7,6 +7,7 @@ import fetchFoodTrucks from './services/datasf';
 
 function App() {
   const [foodTrucks, setFoodTrucks] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
   const [noResults, setNoResults] = useState(false);
   const [searchLimit, setSearchLimit] = useState(5);
   const [longitude, setLongitude] = useState(undefined);
@@ -21,25 +22,23 @@ function App() {
 
   const [searchErrors, setSearchErrors] = useState(defaultErrors);
   const MAX_MENU_ITEMS = 5;
-
-  // TODO: Graphic for fetching
-
-  const hasErred = () => {
-    Object.entries(searchErrors).some(([source, status]) => source !== 'fetch' && status);
-  };
+  const hasErred = () => Object.entries(searchErrors).some(([source, status]) => source !== 'fetch' && status);
   const hasQueries = () => searchLimit && longitude && latitude;
 
   const getFoodTrucks = () => {
     setNoResults(false);
     if(!hasErred() && hasQueries()) {
+      setIsFetching(true);
       return fetchFoodTrucks({ $limit: searchLimit, longitude, latitude })
         .then(foodTrucks => {
+          setIsFetching(false);
           setSearchErrors({ ...searchErrors, fetch: false });
           setFoodTrucks(foodTrucks);
           return foodTrucks.length === 0 && setNoResults(true);
         })
         .catch((error) => {
           console.warn('An error occurred fetching from DataSF', error);
+          setIsFetching(false);
           setSearchErrors({ ...searchErrors, fetch: true });
         });
     }
@@ -63,15 +62,24 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
       </header>
-      <div>
-        <input type="number" min="0" onChange={handleSearchChange('limit')} onBlur={handleSearchBlur('limit')} value={searchLimit} />
-        {searchErrors.limit && <div>Invalid Limit. Must be a number greater than 0</div>}
-        <input type="number" placeholder="longitude" onChange={handleSearchChange('longitude')} onBlur={handleSearchBlur('longitude')} value={longitude} />
-        {searchErrors.longitude && <div>{'Invalid Longitude: -180 <= longitude <= 80'}</div>}
-        <input type="number" placeholder="latitude" onChange={handleSearchChange('latitude')} onBlur={handleSearchBlur('latitude')} value={latitude} />
-        {searchErrors.latitude && <div>{'Invalid Latitude: -90 <= latitude <= 90'}</div>}
-        <button onClick={getFoodTrucks}>SEARCH</button>
-        {searchErrors.fetch && <div>Unable to Search</div>}
+      <div className="search">
+        <div className="query">
+          <label>Limit: </label>
+          <input type="number" min="0" onChange={handleSearchChange('limit')} onBlur={handleSearchBlur('limit')} value={searchLimit} />
+        </div>
+        <div className="error">{searchErrors.limit && 'Invalid Limit. Greater than 0'}</div>
+        <div className="query">
+          <label>Longitude: </label>
+          <input type="number" placeholder="Between -180 and 80" onChange={handleSearchChange('longitude')} onBlur={handleSearchBlur('longitude')} value={longitude} />
+        </div>
+        <div className="error">{searchErrors.longitude && 'Invalid Longitude: Between -180 and 80'}</div>
+        <div className="query">
+          <label>Latitude: </label>
+          <input type="number" placeholder="Between -90 and 90" onChange={handleSearchChange('latitude')} onBlur={handleSearchBlur('latitude')} value={latitude} />
+        </div>
+        <div className="error">{searchErrors.latitude && 'Invalid Latitude: Between -90 and 90'}</div>
+        <button onClick={getFoodTrucks} disabled={isFetching}>{isFetching ? "LOADING..." : "SEARCH" }</button>
+        <div className="error">{searchErrors.fetch && 'Unable to Search'}</div>
       </div>
       {noResults &&
         <React.Fragment>
