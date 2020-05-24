@@ -37,6 +37,10 @@
   }
 }
 
+img.no-results {
+  width: 100%;
+}
+
 .stores {
   display: flex;
   flex-direction: column;

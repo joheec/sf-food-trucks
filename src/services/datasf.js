@@ -6,15 +6,8 @@ export const getHeaders = () => ({
   ...(process.env.DATASF_TOKEN && { 'X-App-Token': process.env.DATASF_TOKEN }),
 });
 
-// TODO: check values are numbers
-const defaultQueries = {
-  '$limit': 5,
-  latitude: 0,
-  longitude: 0,
-};
-
 // API Documentation: https://dev.socrata.com/foundry/data.sfgov.org/rqzj-sfat
-export const getQuery = (queries=defaultQueries) => {
+export const formatQuery = queries => {
   const params = Object.keys(queries);
   const decoded = params.reduce((agg, param, index) => (
     index === 0
@@ -24,9 +17,8 @@ export const getQuery = (queries=defaultQueries) => {
   return encodeURI(decoded);
 };
 
-export default function fetchFoodTrucks() {
-  const urlQuery = getQuery();
+export default function fetchFoodTrucks(queries) {
+  const urlQuery = formatQuery(queries);
   return fetch(urlQuery, { headers: getHeaders() })
     .then(res => res.json())
-    .catch(err => console.log({ err }));
 }

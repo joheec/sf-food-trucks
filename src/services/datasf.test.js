@@ -1,4 +1,4 @@
-import fetchFoodTrucks, { getHeaders, getQuery } from './datasf';
+import { getHeaders, getQuery } from './datasf';
 
 describe('fetch helper logic', () => {
   describe('getHeaders', () => {
@@ -26,9 +26,4 @@ describe('fetch helper logic', () => {
       expect(getQuery(testQueries).endsWith(`?first=1&encoded=${encodeURI('500%')}`)).toBeTruthy();
     });
   });
-});
-
-
-describe('fetch for food trucks', () => {
-  // TODO: test query check (values are numbers)
 });
