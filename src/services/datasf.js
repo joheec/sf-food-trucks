@@ -26,11 +26,7 @@ export const getQuery = (queries=defaultQueries) => {
 
 export default function fetchFoodTrucks() {
   const urlQuery = getQuery();
-  fetch(urlQuery, { headers: getHeaders() })
-    .then(res => {
-      console.log({ res });
-      return res.json();
-    })
-    .then(body => console.log({ body }))
+  return fetch(urlQuery, { headers: getHeaders() })
+    .then(res => res.json())
     .catch(err => console.log({ err }));
 }
