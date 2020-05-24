@@ -1,8 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import fetchFoodTrucks from './services/datasf';
+
 function App() {
+  useEffect( () => {
+    const fetchData = async () => {
+      await fetchFoodTrucks();
+    }
+    fetchData();
+  }, []);
   return (
     <div className="App">
       <header className="App-header">
