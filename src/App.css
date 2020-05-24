@@ -37,16 +37,28 @@
   }
 }
 
+.search {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .search > .query {
   display: flex;
   justify-content: space-between;
-  margin: 5px 45px;
+  margin: 5px 0;
+  width: 80%;
 }
 
 .search > .error {
-  color: red;
   height: 20px;
+  width: 80%;
+  color: red;
   font-size: 16px;
+}
+
+.query-error {
+  text-align: right;
 }
 
 .search > button {
@@ -80,7 +92,7 @@ img.no-results {
   color: #1E9EC1;
   border: solid 4px #6DB4BE;
   border-radius: 14px;
-  box-shadow: 0 0 24px 4px #00BCD4
+  box-shadow: 0 0 12px 4px #00BCD4;
 }
 
 .food-truck > .name {
@@ -97,4 +109,34 @@ img.no-results {
   margin: 1em;
   font-size: 1.2em;
   text-align: left;
+}
+
+@media only screen and (min-width: 640px) {
+  .search > .query,
+  .search > .error,
+  .search > button {
+    width: 512px;
+  }
+  .stores {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: normal;
+    justify-content: space-around;
+  }
+  .stores > .food-truck {
+    width: 220px;
+    box-shadow: 0 0 0 4px #00BCD4;
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+  .food-truck > .name {
+    font-size: 1em;
+  }
+  .food-truck > .address {
+    font-size: 0.9em;
+  }
+  .food-truck > .menu-items {
+    font-size: 0.75em;
+  }
 }

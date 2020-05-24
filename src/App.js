@@ -67,17 +67,17 @@ function App() {
           <label>Limit: </label>
           <input type="number" min="0" onChange={handleSearchChange('limit')} onBlur={handleSearchBlur('limit')} value={searchLimit} />
         </div>
-        <div className="error">{searchErrors.limit && 'Invalid Limit. Greater than 0'}</div>
+        <div className="error query-error">{searchErrors.limit && 'Invalid Limit. Greater than 0'}</div>
         <div className="query">
           <label>Longitude: </label>
           <input type="number" placeholder="Between -180 and 80" onChange={handleSearchChange('longitude')} onBlur={handleSearchBlur('longitude')} value={longitude} />
         </div>
-        <div className="error">{searchErrors.longitude && 'Invalid Longitude: Between -180 and 80'}</div>
+        <div className="error query-error">{searchErrors.longitude && 'Invalid Longitude: Between -180 and 80'}</div>
         <div className="query">
           <label>Latitude: </label>
           <input type="number" placeholder="Between -90 and 90" onChange={handleSearchChange('latitude')} onBlur={handleSearchBlur('latitude')} value={latitude} />
         </div>
-        <div className="error">{searchErrors.latitude && 'Invalid Latitude: Between -90 and 90'}</div>
+        <div className="error query-error">{searchErrors.latitude && 'Invalid Latitude: Between -90 and 90'}</div>
         <button onClick={getFoodTrucks} disabled={isFetching}>{isFetching ? "LOADING..." : "SEARCH" }</button>
         <div className="error">{searchErrors.fetch && 'Unable to Search'}</div>
       </div>
