@@ -1,4 +1,4 @@
-import { getHeaders, getQuery } from './datasf';
+import { getHeaders, formatQuery } from './datasf';
 
 describe('fetch helper logic', () => {
   describe('getHeaders', () => {
@@ -17,13 +17,13 @@ describe('fetch helper logic', () => {
     });
   });
 
-  describe('getQuery', () => {
+  describe('formatQuery', () => {
     it('should return an encoded URL query', () => {
       const testQueries = {
         'first': 1,
         'encoded': '500%',
       };
-      expect(getQuery(testQueries).endsWith(`?first=1&encoded=${encodeURI('500%')}`)).toBeTruthy();
+      expect(formatQuery(testQueries).endsWith(`?first=1&encoded=${encodeURI('500%')}`)).toBeTruthy();
     });
   });
 });

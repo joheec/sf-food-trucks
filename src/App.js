@@ -24,7 +24,6 @@ function App() {
   const MAX_MENU_ITEMS = 5;
   const hasErred = () => Object.entries(searchErrors).some(([source, status]) => source !== 'fetch' && status);
   const hasQueries = () => searchLimit && longitude && latitude;
-
   const getFoodTrucks = () => {
     setNoResults(false);
     if(!hasErred() && hasQueries()) {
@@ -64,7 +63,7 @@ function App() {
       </header>
       <div className="search">
         <div className="query">
-          <label>Limit: </label>
+          <label>Max Results: </label>
           <input type="number" min="0" onChange={handleSearchChange('limit')} onBlur={handleSearchBlur('limit')} value={searchLimit} />
         </div>
         <div className="error query-error">{searchErrors.limit && 'Invalid Limit. Greater than 0'}</div>
