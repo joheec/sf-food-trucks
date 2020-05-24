@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
+import fetchFoodTrucks from './services/datasf';
 import logo from './assets/logo.png';
 import tumbleweedImg from './assets/tumbleweed.gif';
 import './App.css';
-
-import fetchFoodTrucks from './services/datasf';
 
 function App() {
   const [foodTrucks, setFoodTrucks] = useState([]);
@@ -19,11 +18,17 @@ function App() {
     longitude: false,
     latitude: false,
   };
-
   const [searchErrors, setSearchErrors] = useState(defaultErrors);
-  const MAX_MENU_ITEMS = 5;
+
+  // Returns whether any input errors exist in searchErrors
   const hasErred = () => Object.entries(searchErrors).some(([source, status]) => source !== 'fetch' && status);
+  // Returns whether all values necessary for fetch are populated
   const hasQueries = () => searchLimit && longitude && latitude;
+
+  /**
+   * Fetch food trucks and update states
+   * @returns {Promise | void}
+   */
   const getFoodTrucks = () => {
     setNoResults(false);
     if(!hasErred() && hasQueries()) {
@@ -33,7 +38,7 @@ function App() {
           setIsFetching(false);
           setSearchErrors({ ...searchErrors, fetch: false });
           setFoodTrucks(foodTrucks);
-          return foodTrucks.length === 0 && setNoResults(true);
+          foodTrucks.length === 0 && setNoResults(true);
         })
         .catch((error) => {
           console.warn('An error occurred fetching from DataSF', error);
@@ -44,7 +49,15 @@ function App() {
     setSearchErrors({ ...searchErrors, fetch: true });
   };
 
+  /**
+   * Partial application that returns boolean if value is in range
+   * @param min {Number} Lower limit of range (inclusive)
+   * @param max {Number} Lower limit of range (inclusive)
+   * @returns {Function}
+   */
   const isInRange = ({ min=Number.MIN_SAFE_INTEGER, max=Number.MAX_SAFE_INTEGER }) => value => value >= min && value <= max;
+
+  // Mapping of handle functions to input type
   const handleMap = {
     limit: { updateState: setSearchLimit, isValidInput: isInRange({ min: 1}) },
     longitude: { updateState: setLongitude, isValidInput: isInRange({ min: -180, max: 80 }) },
@@ -55,6 +68,9 @@ function App() {
     ...searchErrors,
     [type]: !handleMap[type].isValidInput(Number.parseInt(value)),
   });
+
+  // Max menu items displayed in food truck card
+  const MAX_MENU_ITEMS = 5;
 
   return (
     <div className="App">
