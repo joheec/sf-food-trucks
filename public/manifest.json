@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "SF Food Trucks",
+  "name": "San Francisco Food Truck Search",
   "icons": [
     {
       "src": "favicon.ico",
